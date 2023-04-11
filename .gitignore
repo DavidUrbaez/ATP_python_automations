@@ -1,0 +1,4 @@
+RunATPSimulations/datasets/*
+RunATPSimulations/ATP_files/*
+Wavelet_CNN/datasets/*
+Wavelet_CNN/models/*
