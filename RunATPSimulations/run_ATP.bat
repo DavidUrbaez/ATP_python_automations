@@ -10,8 +10,13 @@ CD C:\ATP\atpmingw
 :: Set variables
 :: ####################################################
 
+set arg1=%1
 
-C:\ATP\atpmingw\tpbig.exe disk C:\Users\USUARIO\Documents\ATPdata\work\system_110kv.atp s -r
+C:\ATP\atpmingw\tpbig.exe disk %arg1% s -r
 
-
-pause
+echo ###########################################
+echo ##			Envoila 
+echo ##	Finish running simulation for :
+echo ##	%arg1%
+echo ###########################################
+::pause
