@@ -1,28 +1,25 @@
-# from bokeh.io import curdoc
-# from bokeh.plotting import figure, output_file, show
-from utils import readPL4
 import matplotlib.pyplot as plt
 from pathlib import Path
-import h5py
-import shutil
+import os
 
 plt.style.use('dark_background')
 
-WORK_DIR = Path(r"C:\Users\USUARIO\Documents\ATPdata\work")
-cwd = Path.cwd()
+TEMPLATES_FOLDER_PATH = Path(r"ATP_templates")
+OUTPUT_FOLDER = Path(r"data\TEST")
+template_file = TEMPLATES_FOLDER_PATH / "system_110kv_single_phase.atp"
 
-DATA_PATH = cwd / 'data' / '110kV_Monofasica'
+with open(template_file, "r") as atp_template_file:
+    data = atp_template_file.read()
 
-DATA_PATH.mkdir(exist_ok=True, parents=True)
+output_file = OUTPUT_FOLDER / "test2.atp"
+fault_R_flag = "$FLAG_F_R$"
 
-simulations = list(WORK_DIR.rglob('*.pl4'))
+R = 110
+f_R = f"{R:010.2f}"
+with open(output_file, 'w') as f:
+    line = data.replace(fault_R_flag, f_R)
+    f.write(line)
 
-for index, simulation in enumerate(simulations):
-    print(str(simulation))
-    sim_folder = DATA_PATH / str(index)
-    sim_folder.mkdir(exist_ok=True, parents=True)
-    atp_file_name = simulation.name.replace(".pl4", ".atp")
-    atp_file = simulation.parent / atp_file_name
-
-    shutil.move(simulation, sim_folder / simulation.name)
-    shutil.move(atp_file, sim_folder / atp_file.name)
+# os.system(r"run_ATP.bat " + r'D:\UNAL_Maestria\Dev\projects\RunATPSimulations\data\test\TEST2.atp')
+os.system(r"run_ATP.bat " + str(output_file.resolve()))
+# print(data)

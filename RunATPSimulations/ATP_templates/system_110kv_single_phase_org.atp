@@ -85,7 +85,7 @@ $VINTAGE, -1,
   VL2A                      1.E3                                               0
   VL2B                      1.E3                                               0
   VL2C                      1.E3                                               0
-  X0001AX0001B              $FLAG_F_R$                                         0
+  X0001AX0001B              110.                                               0
 $INSERT, C:\Users\USUARIO\DOCUME~1\ATPdata\work\110kV_1.pch
 $INSERT, C:\Users\USUARIO\DOCUME~1\ATPdata\work\110kV_2.pch
 $INSERT, C:\Users\USUARIO\DOCUME~1\ATPdata\work\110kV_3.pch
