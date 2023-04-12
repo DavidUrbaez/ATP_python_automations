@@ -9,6 +9,7 @@ import shutil
 plt.style.use('dark_background')
 
 WORK_DIR = Path(r"C:\Users\USUARIO\Documents\ATPdata\work")
+
 cwd = Path.cwd()
 
 DATA_PATH = cwd / 'data' / '110kV_Monofasica'
