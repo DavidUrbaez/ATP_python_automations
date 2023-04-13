@@ -1,4 +1,7 @@
 RunATPSimulations/datasets/*
+RunATPSimulations/data/*
 RunATPSimulations/ATP_files/*
+RunATPSimulations/__pycache__/*
+RunATPSimulations/ATP_templates/*.acp
 Wavelet_CNN/datasets/*
 Wavelet_CNN/models/*
