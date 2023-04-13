@@ -1,43 +1,28 @@
-# from bokeh.io import curdoc
-# from bokeh.plotting import figure, output_file, show
+import numpy as np
+
 from utils import readPL4
-import matplotlib.pyplot as plt
 from pathlib import Path
 import h5py
 import os
+from run_ATP_simulation import run_atp_simulation, pl4_to_npy, create_atp_file
 
+# Define template file
 TEMPLATES_FOLDER_PATH = Path(r"ATP_templates")
-OUTPUT_FOLDER = Path(r"H:/datasets")
-template_file = TEMPLATES_FOLDER_PATH / "System_110kV.atp"
+atp_template_file = TEMPLATES_FOLDER_PATH / "System_110kV_ThreePhase_Ground.atp"
 
-with open(template_file, "r") as atp_template_file:
-    data = atp_template_file.read()
+# define output folder/file
+OUTPUT_FOLDER = Path(r"H:/datasets/Simulations")
+OUTPUT_FOLDER_2 = Path(r"H:/datasets/NumpyResults")
+resistances = np.linspace(10, 1000, 100)
+# TODO: Use multiprocessing (or multithreading) library to parallelize this process
+for resistance in resistances:
+    resistance = np.round(resistance, 2)
+    atp_new_file = OUTPUT_FOLDER / ("3fg_r_" + str(resistance) + ".atp")
+    flag_key_R = "$FLAG_F_R$"
+    flag_value_R = f"{resistance:010.2f}"
 
-fault_R_flag = "$FLAG_F_R$"
-full_data = []
-atp_files = []
-for R in [100, 150, 200, 250]:
-    output_file = OUTPUT_FOLDER / "Simulations" / ("3fg_r_" + str(R) + ".atp")
-    atp_files.append(output_file)
+    flags = {flag_key_R: flag_value_R}
 
-    f_R = f"{R:010.2f}"
-    with open(output_file, 'w') as f:
-        line = data.replace(fault_R_flag, f_R)
-        f.write(line)
-
-    os.system(r"run_ATP.bat " + str(output_file.resolve()))
-# IMPORTANT!
-# In the STARTUP file in C:\ATP\atpmingw please make sure that NEWPL4=2 (note review PL4 files with : hexdump)
-for atp_file in atp_files:
-    pl4_results = Path(str(atp_file.resolve()).replace("atp", "pl4"))
-    df, data, simulation_data = readPL4(pl4_results)
-    t, data = data[:, 0], data[:, 1:]
-
-    df_REG1 = df[df['FROM'].str.contains("REG1")]
-    full_data.append(data[:, df_REG1.index])
-
-############
-# Save data
-hf = h5py.File(OUTPUT_FOLDER / 'datos_fallas.h5', 'w')
-hf.create_dataset('time', data=t)
-hf.create_dataset('Datos_Falla_Monofasica', data=full_data)
+    create_atp_file(atp_template_file, flags, atp_new_file)
+    pl4_results = run_atp_simulation(atp_new_file)
+    pl4_to_npy(pl4_results, OUTPUT_FOLDER_2)

@@ -35,36 +35,39 @@ def run_atp_simulation(atp_file):
     :param atp_file:
     :return:
     """
+    # TODO: remove output window if possible, to avoid useless information in console
     os.system(r"run_ATP.bat " + str(atp_file.resolve()))
-    pl4_results = Path(str(atp_new_file.resolve()).replace("atp", "pl4"))
+    pl4_results = Path(str(atp_file.resolve()).replace("atp", "pl4"))
     return pl4_results
 
 
-def pl4_to_npy(pl4_results):
-    df, data, simulation_data = readPL4(pl4_results)
+def pl4_to_npy(pl4_results_file, output_folder=None):
+    df, data, simulation_data = readPL4(pl4_results_file)
     t, data = data[:, 0], data[:, 1:]
 
     df_REG1 = df[df['FROM'].str.contains("REG1")]
     output_array = data[:, df_REG1.index]
-    np.save(str(atp_new_file.resolve()).replace(".atp", '.npy'), output_array)
+    if output_folder is None:
+        np.save(str(pl4_results_file.resolve()).replace(".pl4", '.npy'), output_array)
+    else:
+        np.save(str(output_folder / pl4_results_file.name).replace(".pl4", '.npy'), output_array)
     # np.savetxt(str(output_file.resolve()).replace(".atp", '.csv'), output_array, delimiter=",")
 
 
-# Define template file
-TEMPLATES_FOLDER_PATH = Path(r"ATP_templates")
-atp_template_file = TEMPLATES_FOLDER_PATH / "System_110kV_ThreePhase_Ground.atp"
-
-# define output folder/file
-OUTPUT_FOLDER = Path(r"H:\test_dataset")
-atp_new_file = OUTPUT_FOLDER / "test0.atp"
-
-R = 110
-flag_key_R = "$FLAG_F_R$"
-flag_value_R = f"{R:010.2f}"
-
-flags = {flag_key_R: flag_value_R}
-
 if __name__ == '__main__':
+    # Define template file
+    TEMPLATES_FOLDER_PATH = Path(r"ATP_templates")
+    atp_template_file = TEMPLATES_FOLDER_PATH / "System_110kV_ThreePhase_Ground.atp"
+
+    # define output folder/file
+    OUTPUT_FOLDER = Path(r"H:\test_dataset")
+    atp_new_file = OUTPUT_FOLDER / "test0.atp"
+
+    R = 110
+    flag_key_R = "$FLAG_F_R$"
+    flag_value_R = f"{R:010.2f}"
+
+    flags = {flag_key_R: flag_value_R}
     create_atp_file(atp_template_file, flags, atp_new_file)
     pl4_results = run_atp_simulation(atp_new_file)
     pl4_to_npy(pl4_results)
