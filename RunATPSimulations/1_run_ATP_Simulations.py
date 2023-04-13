@@ -20,6 +20,6 @@ with open(output_file, 'w') as f:
     line = data.replace(fault_R_flag, f_R)
     f.write(line)
 
-# os.system(r"run_ATP.bat " + r'D:\UNAL_Maestria\Dev\projects\RunATPSimulations\data\test\TEST2.atp')
+
 os.system(r"run_ATP.bat " + str(output_file.resolve()))
 # print(data)

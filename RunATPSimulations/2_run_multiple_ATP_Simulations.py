@@ -8,7 +8,7 @@ import os
 
 TEMPLATES_FOLDER_PATH = Path(r"ATP_templates")
 OUTPUT_FOLDER = Path(r"H:/datasets")
-template_file = TEMPLATES_FOLDER_PATH / "System_110kV_ThreePhase_Ground.atp"
+template_file = TEMPLATES_FOLDER_PATH / "System_110kV.atp"
 
 with open(template_file, "r") as atp_template_file:
     data = atp_template_file.read()
@@ -26,7 +26,8 @@ for R in [100, 150, 200, 250]:
         f.write(line)
 
     os.system(r"run_ATP.bat " + str(output_file.resolve()))
-
+# IMPORTANT!
+# In the STARTUP file in C:\ATP\atpmingw please make sure that NEWPL4=2 (note review PL4 files with : hexdump)
 for atp_file in atp_files:
     pl4_results = Path(str(atp_file.resolve()).replace("atp", "pl4"))
     df, data, simulation_data = readPL4(pl4_results)
