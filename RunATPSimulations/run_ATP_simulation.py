@@ -41,7 +41,7 @@ def run_atp_simulation(atp_file):
     return pl4_results
 
 
-def pl4_to_npy(pl4_results_file, output_folder=None):
+def pl4_to_npy(pl4_results_file, output_folder=None, return_data=False):
     df, data, simulation_data = readPL4(pl4_results_file)
     t, data = data[:, 0], data[:, 1:]
 
@@ -52,6 +52,8 @@ def pl4_to_npy(pl4_results_file, output_folder=None):
     else:
         np.save(str(output_folder / pl4_results_file.name).replace(".pl4", '.npy'), output_array)
     # np.savetxt(str(output_file.resolve()).replace(".atp", '.csv'), output_array, delimiter=",")
+    if return_data:
+        return t, data
 
 
 if __name__ == '__main__':
