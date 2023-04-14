@@ -85,9 +85,7 @@ $VINTAGE, -1,
   VL2A                      1.E3                                               0
   VL2B                      1.E3                                               0
   VL2C                      1.E3                                               0
-  X0001A                    $FLAG_F_R$                                         0
-  X0001C                    $FLAG_F_R$                                         0
-  X0001B                    $FLAG_F_R$                                         0
+  X0001A                    110.                                               0
 $INSERT, C:\Users\USUARIO\DOCUME~1\ATPdata\work\110kV_1.pch
 $INSERT, C:\Users\USUARIO\DOCUME~1\ATPdata\work\110kV_2.pch
 $INSERT, C:\Users\USUARIO\DOCUME~1\ATPdata\work\110kV_3.pch
@@ -111,9 +109,9 @@ C < n 1>< n 2>< Tclose ><Top/Tde ><   Ie   ><Vf/CLOP ><  type  >
   NL12A VL2A                                          MEASURING                1
   NL12B VL2B                                          MEASURING                1
   NL12C VL2C                                          MEASURING                1
-  NL7A  X0001A$FLAG_F_T$      1.E3                                             1
-  NL7B  X0001B$FLAG_F_T$      1.E3                                             1
-  NL7C  X0001C$FLAG_F_T$      1.E3                                             1
+  NL7A  X0001A.016666666      1.E3                                             1
+  NL7B  X0001B.016666666      1.E3                                             1
+  NL7C  X0001C.016666666      1.E3                                             1
 /SOURCE
 C < n 1><>< Ampl.  >< Freq.  ><Phase/T0><   A1   ><   T1   >< TSTART >< TSTOP  >
 14VFTE3A  11267.6528       60.       90.                           -1.      100.
