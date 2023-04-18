@@ -7,20 +7,18 @@ import os
 from run_ATP_simulation import run_atp_simulation, pl4_to_npy, create_atp_file
 
 
-def create_database(atp_template_file, output_folder_numpy):
+def create_database(atp_template_file, OUTPUT_FOLDER, output_folder_numpy,
+                    fault_resistances, fault_times, prefix_name):
     # create output folders
     OUTPUT_FOLDER.mkdir(exist_ok=True, parents=True)
     output_folder_numpy.mkdir(exist_ok=True, parents=True)
-
-    fault_resistances = np.linspace(100, 1000, 10)
-    fault_times = np.linspace(0.02, 0.08, 6 * 10 + 1)
 
     # TODO: Use multiprocessing (or multithreading) library to parallelize this process
 
     for fault_resistance in fault_resistances:
         for fault_time in fault_times:
             atp_new_file = OUTPUT_FOLDER / (
-                    "1Afg_r_" + f"{fault_resistance:08.2f}" + "_t_" + f"{fault_time:05.5f}" + ".atp")
+                    f"{prefix_name}_{fault_resistance:08.2f}_t_{fault_time:05.5f}.atp")
 
             flag_key_T = "$FLAG_F_R$"
             flag_value_T = f"{fault_resistance:010.2f}"
@@ -49,4 +47,8 @@ if __name__ == "__main__":
     OUTPUT_FOLDER = Path(r"H:/datasets/Simulations")
     NUMPY_OUTPUT_FOLDER = Path(r"H:/datasets/NumpyResults")
 
-    create_database(atp_template_file_name, NUMPY_OUTPUT_FOLDER)
+    fault_resistances_values = np.linspace(100, 1000, 10)
+    fault_times_values = np.linspace(0.02, 0.08, 6 * 10 + 1)
+
+    create_database(atp_template_file_name, OUTPUT_FOLDER, NUMPY_OUTPUT_FOLDER,
+                    fault_resistances_values, fault_times_values, prefix_name="1Afg_r")
