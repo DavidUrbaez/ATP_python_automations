@@ -3,6 +3,7 @@ RunATPSimulations/data/*
 RunATPSimulations/ATP_files/*
 RunATPSimulations/__pycache__/*
 RunATPSimulations/ATP_templates/*.acp
+Plotting/.ipynb_checkpoints/*
 Wavelet_CNN/datasets/*
 Wavelet_CNN/models/*
 .ipynb*
